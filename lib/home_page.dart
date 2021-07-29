@@ -9,6 +9,9 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Learn Github Action'),
+      ),
       body: controller.obx(
               (state) => ListView.builder(
                 itemCount: state?.length,

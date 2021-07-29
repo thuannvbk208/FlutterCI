@@ -1,0 +1,73 @@
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  build_android:
+    name: Build Flutter (Android)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '12.x'
+      
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: '2.2.3'
+          channel: 'stable'
+      
+      # Check version
+      - run: flutter --version
+      - run: dart --version
+      
+      # Clean
+      - run: flutter clean
+      
+      # Get dependencies
+      - run: flutter pub get
+      
+      # Run Unit / UI test
+      - run: flutter test
+      
+      # Build APK
+      # Debug
+      - run: flutter build apk --debug
+      # Release
+      - run: flutter build apk --release
+      
+  build_ios:
+    name: Build Flutter (iOS)
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '12.x'
+      
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: '2.2.3'
+          channel: 'stable'
+      
+      # Check version
+      - run: flutter --version
+      - run: dart --version
+      
+      # Clean
+      - run: flutter clean
+      
+      # Get dependencies
+      - run: flutter pub get
+      
+      # Run Unit / UI test
+      - run: flutter test
+      
+      # Build IPA
+      # Debug
+      - run: flutter build ios --debug --no-codesign
+      # Release
+      - run: flutter build ios --release --no-codesign
